@@ -11,7 +11,7 @@
     var getDoctors = function () {
      var d = $q.defer();
 
-        $http.get('/search.json').
+        $http.get('https://github.com/HasanKeyf/vitals-google-map-angular/blob/master/search.json').
             success(function(data) {
                 d.resolve(data);
             }).
