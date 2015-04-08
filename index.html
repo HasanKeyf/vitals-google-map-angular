@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html ng-app="vitals.map">
+<head>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+    <link href="app.css" rel="stylesheet" type="text/css" />
+	<meta charset="utf-8">
+	<title>Vitals App</title>
+
+
+</head>
+<body ng-controller="mapController" ng-cloak="">
+
+
+<div class="container">
+    <h2 class="page-header">Doctor Finder</h2>
+<div class="row">
+    <div class="col-lg12">
+    <ui-gmap-google-map center='map.center' zoom='map.zoom'>
+
+
+
+
+        <ui-gmap-marker coords="marker.coords" options="marker.options"  idkey="marker.id">
+            <ui-gmap-window options="windowOptions" closeClick="closeClick()">
+                <div>
+                    <p>{{doctor.name}}</p>
+                    <a href="{{doctor.href}}" class="btn btn-xs">click to see details</a>
+                </div>
+
+
+
+            </ui-gmap-window>
+        </ui-gmap-marker>
+
+    </ui-gmap-google-map>
+
+    </div>
+</div>
+    <h4 ng-show="dataLoading">Doctors Loading...</h4>
+
+    <div class="row">
+        <h4>Filters</h4>
+        <div class="col-lg-2">
+            <label for="citySearch">Search by Name</label>
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="search by name" ng-model="search.name"/>
+            </div>
+
+        </div>
+        <div class="col-lg-2">
+            <div class="form-group">
+                <label for="citySearch">Search by city</label>
+                <select class="form-control" name="" id="citySearch" ng-model="search.locations.address.city">
+                    <option value="">All</option>
+
+                    <option ng-repeat="c in filterCities track by $index" value="{{c}}">{{c}}</option>
+                </select>
+
+            </div>
+
+        </div>
+
+
+    </div>
+    <div ng-hide="dataLoading" class="row" ng-class="{'bg-info': hover}"  ng-mouseover="hover=true"
+         ng-mouseleave="hover=false" ng-repeat="d in doctors |filter:search">
+
+              <div class="col-lg-1">
+                  <h3 class="navbar-header">{{$index+1}}</h3>
+              </div>
+              <div class="col-lg-2">
+                  <img ng-src="photo.png" alt="{{d.name}}" class="img-thumbnail">
+              </div>
+              <div class="col-lg-8">
+                  <a href="" ng-click="selectDoctor(d)">
+                  <h3 class="">{{d.name}}</h3>
+                  <h4>{{d.locations[0].address.addr_line1}}
+                  {{d.locations[0].address.city}},{{d.locations[0].address.state_code+" "+d.locations[0].address.postal_code}}</h4>
+                  </a>
+              </div>
+
+    </div>
+
+
+</div>
+
+
+
+
+<script src="vendors/angular.min.js"></script>
+<script src='http://maps.googleapis.com/maps/api/js?sensor=false'></script>
+
+<script src='vendors/lodash.min.js'></script>
+<script src='vendors/angular-google-maps.min.js'></script>
+<script src="app.js"></script>
+<script src="mapApiService.js"></script>
+<script src="mapCtrl.js"></script>
+</body>
+</html>
