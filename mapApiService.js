@@ -11,7 +11,7 @@
     var getDoctors = function () {
      var d = $q.defer();
 
-        $http.get('search.json').
+        $http.get('/search.json').
             success(function(data) {
                 d.resolve(data);
             }).
